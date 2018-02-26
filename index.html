@@ -1,0 +1,155 @@
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <link href="https://fonts.googleapis.com/css?family=Exo" rel="stylesheet">
+  <script src="https://cdn.jsdelivr.net/npm/vue"></script>
+  <title>Flödet</title>
+</head>
+<body>
+  <div id="app">
+    <header>
+      <h1>{{ message }}</h1>
+    </header>
+    <div class="container">
+      <div class="flex">
+        <div class="column">
+          <h2>FACEBOOK</h2>
+          <div class="content">
+            <div class="card" v-for="post in posts.facebook">
+              <img v-bind:src="post.image" alt="">
+              <p>{{ post.message }}</p>
+              <a v-bind:href="post.link">Läs mer</a>
+              <template v-if="post.from">
+              <p>Skrivet av: {{ post.from.name }}<br>{{ post.created_time }}</p>
+              </template>
+            </div>
+          </div>
+        </div>
+        <div class="column">
+          <h2>TWITTER</h2>
+          <div class="content">
+            <template v-if="posts.twitter">
+              <div class="card" v-for="post in posts.twitter">
+                <p>{{ post.full_text }}</p>
+                <p>Skrivet av: {{ post.user.name }}<br>{{ post.created_at }}</p>
+              </div>
+            </template>
+          </div>
+        </div>
+        <div class="column">
+          <h2>SVENSKA FANS</h2>
+          <div class="content">
+            <template v-if="posts.svenskafans">
+              <div class="card" v-for="post in posts.svenskafans.posts">
+                <p v-html="post.message"></p>
+                <p>Skrivet av: {{ post.author }}<br>{{ post.created_date }}</p>
+              </div>
+            </template>
+          </div>
+        </div>
+        <div class="column">
+          <h2>OFFICIELLA</h2>
+          <div class="content">
+            <template v-if="posts.hammarbyfotboll">
+              <div class="card" v-for="post in posts.hammarbyfotboll.posts">
+                <img v-bind:src="post.image" alt="">
+                <div v-show="post.video" class="videoWrapper">
+                  <iframe v-bind:src="post.video" alt=""></iframe>
+                </div>
+                <h3>{{ post.title }}</h3>
+                <p>{{ post.message }}</p>
+                <a v-bind:href="post.link">Läs mer</a>
+              </div>
+            </template>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="footer">
+      <p>{{ message }}</p>
+    </div>
+  </div>
+</body>
+</html>
+
+<script>
+  var app = new Vue({
+    el: '#app',
+    data: {
+      message: 'Bajenflödet',
+      posts: []
+    }
+  });
+  fetch('http://localhost:3000/feed')
+    .then(res => res.json())
+    .then(res => app.posts = res)
+    .catch(err => console.log(err));
+</script>
+
+<style>
+  body {
+    font-family: 'Exo', sans-serif;
+  }
+
+  #app {
+    margin: auto;
+    max-width: 1366px;
+  }
+
+  .flex {
+    display: flex;
+  }
+
+  .column {
+    background-color: #F5F5F5;
+    border: 1px solid #DDDDDD;
+    border-radius: 4px 0 4px 0;
+    color: #3B3C3E;
+    font-size: 14px;
+    font-weight: bold;
+    left: -1px;
+    padding: 10px 7px 5px;
+    flex: 1;
+    width: 0;
+  }
+
+.content{
+    height:100%;
+    overflow:scroll;
+    overflow-x:hidden;
+}
+
+.card {
+  margin-bottom: 10px;
+  padding-bottom: 10px;
+  border-bottom: solid 1px black;
+}
+
+img {
+  max-width: 100%;
+}
+
+.videoWrapper {
+	position: relative;
+	padding-bottom: 56.25%; /* 16:9 */
+	padding-top: 25px;
+	height: 0;
+}
+.videoWrapper iframe {
+	position: absolute;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
+}
+
+.quote {
+  padding-left: 10px;
+}
+
+.author {
+  text-decoration: underline;
+}
+</style>
