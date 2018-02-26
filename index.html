@@ -9,14 +9,14 @@
 </head>
 <body>
   <div id="app">
-    <header>
-      <h1>{{ message }}</h1>
-    </header>
     <div class="container">
-      <div class="flex">
-        <div class="column">
-          <h2>FACEBOOK</h2>
-          <div class="content">
+      <header>
+        <h1>{{ message }}</h1>
+      </header>
+        <div class="content">
+        
+          <div class="column">
+            <h2>FACEBOOK</h2>
             <div class="card" v-for="post in posts.facebook">
               <img v-bind:src="post.image" alt="">
               <p>{{ post.message }}</p>
@@ -26,10 +26,9 @@
               </template>
             </div>
           </div>
-        </div>
-        <div class="column">
-          <h2>TWITTER</h2>
-          <div class="content">
+
+          <div class="column">
+            <h2>TWITTER</h2>
             <template v-if="posts.twitter">
               <div class="card" v-for="post in posts.twitter">
                 <p>{{ post.full_text }}</p>
@@ -37,10 +36,9 @@
               </div>
             </template>
           </div>
-        </div>
-        <div class="column">
-          <h2>SVENSKA FANS</h2>
-          <div class="content">
+
+          <div class="column">
+            <h2>SVENSKA FANS</h2>
             <template v-if="posts.svenskafans">
               <div class="card" v-for="post in posts.svenskafans.posts">
                 <p v-html="post.message"></p>
@@ -48,10 +46,9 @@
               </div>
             </template>
           </div>
-        </div>
-        <div class="column">
-          <h2>OFFICIELLA</h2>
-          <div class="content">
+
+          <div class="column">
+            <h2>OFFICIELLA</h2>
             <template v-if="posts.hammarbyfotboll">
               <div class="card" v-for="post in posts.hammarbyfotboll.posts">
                 <img v-bind:src="post.image" alt="">
@@ -64,11 +61,11 @@
               </div>
             </template>
           </div>
+
         </div>
-      </div>
-    </div>
-    <div class="footer">
-      <p>{{ message }}</p>
+      <footer class="footer">
+        <p>{{ message }}</p>
+      </footer>
     </div>
   </div>
 </body>
@@ -89,42 +86,44 @@
 </script>
 
 <style>
-  body {
-    font-family: 'Exo', sans-serif;
-  }
+body,
+html,
+.container {
+    height: 100%;
+}
 
-  #app {
-    margin: auto;
-    max-width: 1366px;
-  }
+body {
+  font-family: 'Exo', sans-serif;
+  margin: 0;
+}
 
-  .flex {
-    display: flex;
-  }
+.container {
+  display: flex;
+  flex-direction: column;
+  margin: auto;
+  max-width: 1366px;
+}
 
-  .column {
-    background-color: #F5F5F5;
-    border: 1px solid #DDDDDD;
-    border-radius: 4px 0 4px 0;
-    color: #3B3C3E;
-    font-size: 14px;
-    font-weight: bold;
-    left: -1px;
-    padding: 10px 7px 5px;
-    flex: 1;
-    width: 0;
-  }
+.content { 
+  display: flex;
+  flex: 1;
+}
 
-.content{
-    height:100%;
-    overflow:scroll;
-    overflow-x:hidden;
+.column {
+  flex: 1;
+  overflow: scroll;
+  overflow-x: hidden;
+  padding: 0 3px;
+  border: 1px solid gray;
+  border-radius: 5px;
 }
 
 .card {
   margin-bottom: 10px;
   padding-bottom: 10px;
   border-bottom: solid 1px black;
+  word-wrap: break-word;
+  padding: 5px;
 }
 
 img {
@@ -142,7 +141,8 @@ img {
 	top: 0;
 	left: 0;
 	width: 100%;
-	height: 100%;
+  height: 100%;
+  border: none;
 }
 
 .quote {
@@ -152,4 +152,48 @@ img {
 .author {
   text-decoration: underline;
 }
+
+/**
+ * Like, basically PERFECT scrollbars
+ */
+
+/* 
+   It's pure CSS. 
+   Since a quick google search will confirm people going crazy about Mac OS Lion scrollbars...
+   this has no fade-out effect.
+  
+   In Mac OS Lion, the lowest common denominator is always showing scrollbars by a setting.
+   So, this fits that lowest common denominator.
+
+   Facebook, lifehacker, and Google have all basically taken this approach. Of course Google uses incredibly ugly square scrollbars, but so be it.
+   Also, in regards to the fade in/out effect, this may just be one reason why soo many people outraged (and still hide) the ticker.
+
+   Ending note: I recommend this for non-lion users. As a lion user, I prefer my fading out scrollbars. If you sniff a UA of mac os lion, don't add this css.
+*/
+ 
+
+/* Turn on custom 8px wide scrollbar */
+::-webkit-scrollbar {
+  width: 4px; /* 1px wider than Lion. */
+  /* This is more usable for users trying to click it. */
+  background-color: rgba(0,0,0,0);
+  -webkit-border-radius: 100px;
+}
+/* hover effect for both scrollbar area, and scrollbar 'thumb' */
+::-webkit-scrollbar:hover {
+  background-color: rgba(0, 0, 0, 0.09);
+}
+
+/* The scrollbar 'thumb' ...that marque oval shape in a scrollbar */
+::-webkit-scrollbar-thumb:vertical {
+  /* This is the EXACT color of Mac OS scrollbars. 
+     Yes, I pulled out digital color meter */
+  background: rgba(0,0,0,0.5);
+  -webkit-border-radius: 100px;
+}
+::-webkit-scrollbar-thumb:vertical:active {
+  background: rgba(0,0,0,0.61); /* Some darker color when you click it */
+  -webkit-border-radius: 100px;
+}
+
 </style>
