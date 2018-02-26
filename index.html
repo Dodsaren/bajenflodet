@@ -22,7 +22,7 @@
               <p>{{ post.message }}</p>
               <a v-bind:href="post.link">Läs mer</a>
               <template v-if="post.from">
-              <p>Skrivet av: {{ post.from.name }}<br>{{ post.created_time }}</p>
+              <p><small>Skrivet av: {{ post.from.name }}<br>{{ post.created_time }}</small></p>
               </template>
             </div>
           </div>
@@ -32,7 +32,7 @@
             <template v-if="posts.twitter">
               <div class="card" v-for="post in posts.twitter">
                 <p>{{ post.full_text }}</p>
-                <p>Skrivet av: {{ post.user.name }}<br>{{ post.created_at }}</p>
+                <p><small>Skrivet av: {{ post.user.name }}<br>{{ post.created_at }}</small></p>
               </div>
             </template>
           </div>
@@ -42,7 +42,7 @@
             <template v-if="posts.svenskafans">
               <div class="card" v-for="post in posts.svenskafans.posts">
                 <p v-html="post.message"></p>
-                <p>Skrivet av: {{ post.author }}<br>{{ post.created_date }}</p>
+                <p><small>Skrivet av: {{ post.author }}<br>{{ post.created_date }}</small></p>
               </div>
             </template>
           </div>
@@ -57,6 +57,9 @@
                 </div>
                 <h3>{{ post.title }}</h3>
                 <p>{{ post.message }}</p>
+                <p>
+                  <small>{{ post.subtitle }}</small>
+                </p>
                 <a v-bind:href="post.link">Läs mer</a>
               </div>
             </template>
